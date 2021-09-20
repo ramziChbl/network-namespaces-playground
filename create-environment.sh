@@ -42,6 +42,8 @@ done
 echo "\"" >> env.config
 
 
+
+# Load config file
 . env.config
 
 echo "The following namespaces will be created: $namespaces"
@@ -55,11 +57,7 @@ then
   ip link set dev $bridge_name up
 fi
 
-for ns in "${namespaces[@]}"
-do
-  echo $ns
-done
-
+# Variable used for ip addresses
 i=1
 for ns in "${namespaces[@]}"
 do
@@ -83,7 +81,6 @@ do
 
   # Add ip address to veth0 in namespace
   echo "[$ns] Adding IP address 10.1.1.$i/24 to veth0 in $ns"
-  #ip netns exec $ns ip addr add 10.1.1.1/24 dev veth0
   ip netns exec $ns ip addr add 10.1.1.$i/24 dev veth0
   i=$(( $i + 1 ))
 
